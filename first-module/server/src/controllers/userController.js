@@ -17,4 +17,19 @@ module.exports = {
     const usersData = JSON.stringify(sortedUsers);
     response.end(usersData);
   },
+  getUserById(request, response) {
+    const { id } = request.params;
+    const findUser = (user) => user.id === Number(id);
+    const user = users.find(findUser);
+
+    if (!user) {
+      response.writeHead(400, { "Content-Type": "application/json" });
+      const errorMessage = JSON.stringify({ error: "user not found." });
+      response.end(errorMessage);
+    } else {
+      response.writeHead(200, { "Content-Type": "application/json" });
+      const userData = JSON.stringify(user);
+      response.end(userData);
+    }
+  },
 };
