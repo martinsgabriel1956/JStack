@@ -13,9 +13,8 @@ module.exports = {
     };
 
     const sortedUsers = users.sort(sortUsers);
-    response.writeHead(200, { "Content-Type": "application/json" });
-    const usersData = JSON.stringify(sortedUsers);
-    response.end(usersData);
+    const statusCode = 200;
+    response.send(statusCode, sortedUsers);
   },
   getUserById(request, response) {
     const { id } = request.params;
