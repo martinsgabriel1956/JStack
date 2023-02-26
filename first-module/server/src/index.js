@@ -1,5 +1,6 @@
 const http = require("http");
 const { URL } = require("url");
+const bodyParser = require("./helpers/bodyParser");
 const routes = require("./routes");
 const PORT = 3000;
 
@@ -36,6 +37,13 @@ const server = http.createServer((request, response) => {
     };
 
     response.send = responseSendContent;
+
+    const createAndUpdateMethods = ["POST", "PUT", "PATCH"];
+
+    if (createAndUpdateMethods.includes(request.method)) {
+      const createOrUpdateUserHandler = () => route.handler(request, response);
+      return bodyParser(request, createOrUpdateUserHandler);
+    }
 
     route.handler(request, response);
   } else {

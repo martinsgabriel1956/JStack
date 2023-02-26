@@ -1,3 +1,4 @@
+const bodyParser = require("../helpers/bodyParser");
 const users = require("../mocks/users");
 
 module.exports = {
@@ -32,26 +33,15 @@ module.exports = {
     }
   },
   createUser(request, response) {
-    let body = "";
+    const { body } = request;
+    const lastUserId = users[users.length - 1].id;
 
-    const receiveAllChunks = (chunk) => (body += chunk);
-
-    request.on("data", receiveAllChunks);
-
-    const sendBodyParsed = () => {
-      body = JSON.parse(body);
-
-      const lastUserId = users[users.length - 1].id;
-
-      const newUser = {
-        id: lastUserId + 1,
-        name: body.name,
-      };
-
-      users.push(newUser);
-      response.send(200, newUser);
+    const newUser = {
+      id: lastUserId + 1,
+      name: body.name,
     };
 
-    request.on("end", sendBodyParsed);
+    users.push(newUser);
+    response.send(200, newUser);
   },
 };
