@@ -1,5 +1,4 @@
-const bodyParser = require("../helpers/bodyParser");
-const users = require("../mocks/users");
+let users = require("../mocks/users");
 
 module.exports = {
   listUser(request, response) {
@@ -43,5 +42,34 @@ module.exports = {
 
     users.push(newUser);
     response.send(200, newUser);
+  },
+  updateUser(request, response) {
+    const { name } = request.body;
+    let { id } = request.params;
+
+    id = Number(id);
+
+    const findUser = (user) => user.id === id;
+    const userExists = users.find(findUser);
+
+    if (!userExists) {
+      return response.send(400, { error: "user not found." });
+    }
+
+    const updateUser = (user) =>
+      user.id === id ? { ...userExists, name } : user;
+    users = users.map(updateUser);
+
+    response.send(200, { id, name });
+  },
+  deleteUser(request, response) {
+    let { id } = request.params;
+    id = Number(id);
+
+    const hasNotEqualId = (user) => user.id !== id;
+    const removeUser = users.filter(hasNotEqualId);
+    users = removeUser;
+
+    response.send(200, { deleted: true });
   },
 };
