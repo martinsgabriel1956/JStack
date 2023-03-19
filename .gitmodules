@@ -1,0 +1,3 @@
+[submodule "second-module"]
+	path = second-module
+	url = https://github.com/martinsgabriel1956/myContacts
