@@ -10,3 +10,6 @@
 [submodule "sixth-module"]
 	path = sixth-module
 	url = https://github.com/martinsgabriel1956/jstack-blog
+[submodule "seventh-module"]
+	path = seventh-module
+	url = https://github.com/martinsgabriel1956/myContacts-web
